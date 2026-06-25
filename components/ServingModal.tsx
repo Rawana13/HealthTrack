@@ -30,9 +30,11 @@ interface Props {
   food: FoodItem | null;
   onAdd: (entry: FoodLogEntry) => void;
   onClose: () => void;
+  editingEntry?: FoodLogEntry | null;
+  onEdit?: (updated: FoodLogEntry) => void;
 }
 
-export default function ServingModal({ visible, food, onAdd, onClose }: Props) {
+export default function ServingModal({ visible, food, onAdd, onClose, editingEntry, onEdit }: Props) {
   const [selectedServing, setSelectedServing] = useState(0);
   const [customMultiplier, setCustomMultiplier] = useState('1');
   const [isCustom, setIsCustom] = useState(false);
@@ -40,12 +42,28 @@ export default function ServingModal({ visible, food, onAdd, onClose }: Props) {
 
   useEffect(() => {
     if (visible) {
-      setSelectedServing(0);
-      setCustomMultiplier('1');
-      setIsCustom(false);
-      setMeal('Meal 1');
+      if (editingEntry) {
+        const idx = SERVING_OPTIONS.findIndex(
+          (o) => o.multiplier === editingEntry.multiplier,
+        );
+        if (idx >= 0) {
+          setSelectedServing(idx);
+          setIsCustom(false);
+          setCustomMultiplier(String(editingEntry.multiplier));
+        } else {
+          setIsCustom(true);
+          setCustomMultiplier(String(editingEntry.multiplier));
+          setSelectedServing(0);
+        }
+        setMeal(editingEntry.meal);
+      } else {
+        setSelectedServing(0);
+        setCustomMultiplier('1');
+        setIsCustom(false);
+        setMeal('Meal 1');
+      }
     }
-  }, [visible]);
+  }, [visible, editingEntry]);
 
   if (!food) return null;
 
@@ -60,19 +78,33 @@ export default function ServingModal({ visible, food, onAdd, onClose }: Props) {
   const calc = (val: number) => Math.round(val * multiplier * 10) / 10;
 
   const handle = () => {
-    const entry: FoodLogEntry = {
-      id: genId(),
-      food,
-      multiplier,
-      servingLabel,
-      meal,
-      calories: Math.round(food.calories * multiplier),
-      protein: calc(food.protein),
-      carbs: calc(food.carbs),
-      fat: calc(food.fat),
-      timestamp: Date.now(),
-    };
-    onAdd(entry);
+    if (editingEntry && onEdit) {
+      const updated: FoodLogEntry = {
+        ...editingEntry,
+        multiplier,
+        servingLabel,
+        meal,
+        calories: Math.round(food.calories * multiplier),
+        protein: calc(food.protein),
+        carbs: calc(food.carbs),
+        fat: calc(food.fat),
+      };
+      onEdit(updated);
+    } else {
+      const entry: FoodLogEntry = {
+        id: genId(),
+        food,
+        multiplier,
+        servingLabel,
+        meal,
+        calories: Math.round(food.calories * multiplier),
+        protein: calc(food.protein),
+        carbs: calc(food.carbs),
+        fat: calc(food.fat),
+        timestamp: Date.now(),
+      };
+      onAdd(entry);
+    }
     onClose();
   };
 
@@ -151,7 +183,7 @@ export default function ServingModal({ visible, food, onAdd, onClose }: Props) {
             </View>
 
             <TouchableOpacity style={styles.addBtn} onPress={handle}>
-              <Text style={styles.addBtnTxt}>Add to Log</Text>
+              <Text style={styles.addBtnTxt}>{editingEntry ? 'Update Entry' : 'Add to Log'}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>

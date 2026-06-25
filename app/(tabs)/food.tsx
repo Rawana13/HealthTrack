@@ -32,13 +32,14 @@ type DisplayCategory = (typeof DISPLAY_CATEGORIES)[number];
 export default function FoodTab() {
   const { top } = useSafeAreaInsets();
   const {
-    addFood, foodLog, removeFood, clearFoodLog, flashMsg,
+    addFood, editFood, foodLog, removeFood, clearFoodLog, flashMsg,
     customFoods, addCustomFood, removeCustomFood,
   } = useHealth();
 
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<DisplayCategory>('All');
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
+  const [editingEntry, setEditingEntry] = useState<FoodLogEntry | null>(null);
   const [showCustom, setShowCustom] = useState(false);
   const [showScan, setShowScan] = useState(false);
 
@@ -344,6 +345,12 @@ export default function FoodTab() {
                           </View>
                           <Text style={styles.logCal}>{e.calories} kcal</Text>
                           <TouchableOpacity
+                            style={styles.editBtn}
+                            onPress={() => setEditingEntry(e)}
+                          >
+                            <Ionicons name="pencil-outline" size={15} color={Colors.accent} />
+                          </TouchableOpacity>
+                          <TouchableOpacity
                             style={styles.deleteBtn}
                             onPress={() => removeFood(e.id)}
                           >
@@ -363,10 +370,12 @@ export default function FoodTab() {
       </KeyboardAvoidingView>
 
       <ServingModal
-        visible={selectedFood !== null}
-        food={selectedFood}
+        visible={selectedFood !== null || editingEntry !== null}
+        food={selectedFood ?? editingEntry?.food ?? null}
         onAdd={addFood}
-        onClose={() => setSelectedFood(null)}
+        onClose={() => { setSelectedFood(null); setEditingEntry(null); }}
+        editingEntry={editingEntry}
+        onEdit={(updated) => { editFood(updated); setEditingEntry(null); }}
       />
 
       <ScanLabelModal
@@ -594,6 +603,7 @@ const styles = StyleSheet.create({
   logName: { color: Colors.white, fontSize: 14, fontWeight: '600' },
   logServing: { color: Colors.textSecondary, fontWeight: '400' },
   logMacros: { fontSize: 12, marginTop: 3 },
-  logCal: { color: Colors.green, fontWeight: '700', fontSize: 14, marginRight: 12 },
+  logCal: { color: Colors.green, fontWeight: '700', fontSize: 14, marginRight: 8 },
+  editBtn: { padding: 4, marginRight: 4 },
   deleteBtn: { padding: 4 },
 });

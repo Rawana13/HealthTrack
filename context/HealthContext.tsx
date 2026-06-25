@@ -28,6 +28,7 @@ interface HealthContextType {
 
   foodLog: FoodLogEntry[];
   addFood: (entry: FoodLogEntry) => void;
+  editFood: (updated: FoodLogEntry) => void;
   removeFood: (id: string) => void;
   clearFoodLog: () => void;
 
@@ -128,6 +129,18 @@ export function HealthProvider({ children }: { children: React.ReactNode }) {
     [showFlash],
   );
 
+  const editFood = useCallback(
+    (updated: FoodLogEntry) => {
+      setFoodLog((prev) => {
+        const next = prev.map((e) => (e.id === updated.id ? updated : e));
+        persist(makeKeys(today()).FOOD_LOG, next);
+        return next;
+      });
+      showFlash(`✓ Updated ${updated.food.name}`);
+    },
+    [showFlash],
+  );
+
   const removeFood = useCallback((id: string) => {
     setFoodLog((prev) => {
       const next = prev.filter((f) => f.id !== id);
@@ -215,6 +228,7 @@ export function HealthProvider({ children }: { children: React.ReactNode }) {
         removeCustomFood,
         foodLog,
         addFood,
+        editFood,
         removeFood,
         clearFoodLog,
         workoutLog,
