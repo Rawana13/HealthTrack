@@ -19,7 +19,7 @@ import FlashMessage from '../../components/FlashMessage';
 
 export default function Dashboard() {
   const { top } = useSafeAreaInsets();
-  const { totals, burnedCalories, goals, waterCount, workoutLog, foodLog, flashMsg, updateGoals, editFood } =
+  const { totals, burnedCalories, goals, waterCount, workoutLog, foodLog, flashMsg, updateGoals, editFood, removeFood } =
     useHealth();
   const [showGoals, setShowGoals] = useState(false);
   const [editingEntry, setEditingEntry] = useState<FoodLogEntry | null>(null);
@@ -135,13 +135,8 @@ export default function Dashboard() {
             <Text style={styles.emptyTxt}>No food logged yet</Text>
           )}
           {preview.map((e) => (
-            <TouchableOpacity
-              key={e.id}
-              style={styles.logRow}
-              onPress={() => setEditingEntry(e)}
-              activeOpacity={0.7}
-            >
-              <View style={{ flex: 1 }}>
+            <View key={e.id} style={styles.logRow}>
+              <TouchableOpacity style={{ flex: 1 }} onPress={() => setEditingEntry(e)} activeOpacity={0.7}>
                 <Text style={styles.logName}>
                   {e.food.name}
                   <Text style={styles.logServing}> ({e.servingLabel})</Text>
@@ -153,10 +148,15 @@ export default function Dashboard() {
                   {'  '}
                   <Text style={{ color: Colors.blue }}>F:{e.fat}g</Text>
                 </Text>
-              </View>
+              </TouchableOpacity>
               <Text style={styles.logCal}>{e.calories} kcal</Text>
-              <Ionicons name="pencil-outline" size={14} color={Colors.textSecondary} style={{ marginLeft: 8 }} />
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.iconBtn} onPress={() => setEditingEntry(e)}>
+                <Ionicons name="pencil-outline" size={14} color={Colors.textSecondary} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconBtn} onPress={() => removeFood(e.id)}>
+                <Ionicons name="trash-outline" size={14} color={Colors.red} />
+              </TouchableOpacity>
+            </View>
           ))}
           {foodLog.length > 3 && (
             <Text style={styles.moreItems}>+{foodLog.length - 3} more items</Text>
@@ -271,7 +271,8 @@ const styles = StyleSheet.create({
   logName: { color: Colors.white, fontSize: 14, fontWeight: '600' },
   logServing: { color: Colors.textSecondary, fontWeight: '400' },
   logMacros: { fontSize: 12, marginTop: 3 },
-  logCal: { color: Colors.green, fontWeight: '700', fontSize: 14 },
+  logCal: { color: Colors.green, fontWeight: '700', fontSize: 14, marginLeft: 8 },
+  iconBtn: { padding: 6, marginLeft: 2 },
   moreItems: { color: Colors.textSecondary, fontSize: 13, textAlign: 'center', marginTop: 12 },
   emptyTxt: { color: Colors.textSecondary, fontSize: 14, textAlign: 'center', paddingVertical: 8 },
 });
