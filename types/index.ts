@@ -7,6 +7,7 @@ export interface FoodItem {
   carbs: number;
   fat: number;
   serving: string;
+  isCustom?: boolean;
 }
 
 export interface FoodLogEntry {

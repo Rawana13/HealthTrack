@@ -46,10 +46,11 @@ const MEALS = ['Meal 1', 'Meal 2', 'Meal 3', 'Added'];
 interface Props {
   visible: boolean;
   onAdd: (entry: FoodLogEntry) => void;
+  onSaveFood: (food: FoodItem) => void;
   onClose: () => void;
 }
 
-export default function ScanLabelModal({ visible, onAdd, onClose }: Props) {
+export default function ScanLabelModal({ visible, onAdd, onSaveFood, onClose }: Props) {
   const [stage, setStage] = useState<Stage>('setup');
   const [apiKey, setApiKey] = useState('');
   const [savedKey, setSavedKey] = useState('');
@@ -190,13 +191,17 @@ export default function ScanLabelModal({ visible, onAdd, onClose }: Props) {
     const food: FoodItem = {
       id: genId(),
       name: form.name || 'Scanned Food',
-      category: 'Meals',
+      category: 'My Foods',
+      isCustom: true,
       calories: form.calories,
       protein: form.protein,
       carbs: form.carbs,
       fat: form.fat,
       serving: form.servingSize || '1 serving',
     };
+    // Save to the food bank so it can be reused
+    onSaveFood(food);
+    // Also log it immediately
     const entry: FoodLogEntry = {
       id: genId(),
       food,
@@ -391,6 +396,11 @@ export default function ScanLabelModal({ visible, onAdd, onClose }: Props) {
                       </Text>
                     </TouchableOpacity>
                   ))}
+                </View>
+
+                <View style={styles.saveBankNote}>
+                  <Ionicons name="bookmark" size={14} color={Colors.accent} />
+                  <Text style={styles.saveBankTxt}>Will also be saved to My Foods for future use</Text>
                 </View>
 
                 <TouchableOpacity style={styles.primaryBtn} onPress={handleAdd}>
@@ -655,6 +665,18 @@ const styles = StyleSheet.create({
   mealChipActive:    { backgroundColor: Colors.accent, borderColor: Colors.accent },
   mealChipTxt:       { color: Colors.textSecondary, fontSize: 12, fontWeight: '600' },
   mealChipTxtActive: { color: Colors.white },
+
+  // Save to bank note
+  saveBankNote: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: Colors.accent + '18',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 14,
+  },
+  saveBankTxt: { color: Colors.accent, fontSize: 12, flex: 1 },
 
   // Shared
   primaryBtn: {

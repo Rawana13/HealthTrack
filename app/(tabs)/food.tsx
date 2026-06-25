@@ -21,12 +21,23 @@ import ServingModal from '../../components/ServingModal';
 import ScanLabelModal from '../../components/ScanLabelModal';
 import FlashMessage from '../../components/FlashMessage';
 
+// All category tabs — "My Foods" is injected first after "All"
+const DISPLAY_CATEGORIES = [
+  'All',
+  'My Foods',
+  ...CATEGORIES.filter((c) => c !== 'All'),
+] as const;
+type DisplayCategory = (typeof DISPLAY_CATEGORIES)[number];
+
 export default function FoodTab() {
   const { top } = useSafeAreaInsets();
-  const { addFood, foodLog, removeFood, clearFoodLog, flashMsg } = useHealth();
+  const {
+    addFood, foodLog, removeFood, clearFoodLog, flashMsg,
+    customFoods, addCustomFood, removeCustomFood,
+  } = useHealth();
 
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState<FoodCategory>('All');
+  const [category, setCategory] = useState<DisplayCategory>('All');
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [showCustom, setShowCustom] = useState(false);
   const [showScan, setShowScan] = useState(false);
@@ -38,14 +49,23 @@ export default function FoodTab() {
   const [customCarbs, setCustomCarbs] = useState('');
   const [customFat, setCustomFat] = useState('');
 
+  // Merge custom foods (first) with the built-in database
+  const allFoods = useMemo(
+    () => [...customFoods, ...FOOD_DATABASE],
+    [customFoods],
+  );
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return FOOD_DATABASE.filter((f) => {
-      const matchCat = category === 'All' || f.category === category;
+    return allFoods.filter((f) => {
+      const matchCat =
+        category === 'All'      ? true :
+        category === 'My Foods' ? !!f.isCustom :
+                                  f.category === category && !f.isCustom;
       const matchQ = !q || f.name.toLowerCase().includes(q);
       return matchCat && matchQ;
     });
-  }, [search, category]);
+  }, [allFoods, search, category]);
 
   // Group food log by meal
   const grouped = useMemo(() => {
@@ -70,7 +90,7 @@ export default function FoodTab() {
     { cal: 0, p: 0, c: 0, f: 0 },
   );
 
-  const addCustomFood = () => {
+  const handleAddCustomForm = () => {
     if (!customName.trim()) {
       Alert.alert('Name required', 'Please enter a food name.');
       return;
@@ -78,13 +98,16 @@ export default function FoodTab() {
     const food: FoodItem = {
       id: genId(),
       name: customName.trim(),
-      category: 'Meals',
+      category: 'My Foods',
+      isCustom: true,
       calories: parseFloat(customCal) || 0,
       protein: parseFloat(customProtein) || 0,
       carbs: parseFloat(customCarbs) || 0,
       fat: parseFloat(customFat) || 0,
       serving: '1 serving',
     };
+    // Save to food bank so it appears in My Foods for future use
+    addCustomFood(food);
     const entry: FoodLogEntry = {
       id: genId(),
       food,
@@ -168,16 +191,21 @@ export default function FoodTab() {
                 style={styles.catScroll}
                 contentContainerStyle={styles.catContent}
               >
-                {CATEGORIES.map((cat) => (
+                {DISPLAY_CATEGORIES.map((cat) => (
                   <TouchableOpacity
                     key={cat}
-                    style={[styles.catChip, category === cat && styles.catChipActive]}
-                    onPress={() => setCategory(cat as FoodCategory)}
+                    style={[
+                      styles.catChip,
+                      category === cat && styles.catChipActive,
+                      cat === 'My Foods' && styles.catChipMyFoods,
+                      cat === 'My Foods' && category === cat && styles.catChipMyFoodsActive,
+                    ]}
+                    onPress={() => setCategory(cat)}
                   >
-                    <Text
-                      style={[styles.catTxt, category === cat && styles.catTxtActive]}
-                    >
-                      {cat}
+                    <Text style={[styles.catTxt, category === cat && styles.catTxtActive]}>
+                      {cat === 'My Foods'
+                        ? `⭐ My Foods${customFoods.length ? ` (${customFoods.length})` : ''}`
+                        : cat}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -190,11 +218,14 @@ export default function FoodTab() {
           }
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.foodRow}
+              style={[styles.foodRow, item.isCustom && styles.foodRowCustom]}
               onPress={() => setSelectedFood(item)}
               activeOpacity={0.7}
             >
               <View style={styles.foodLeft}>
+                {item.isCustom && (
+                  <Text style={styles.myFoodsTag}>⭐ MY FOODS</Text>
+                )}
                 <Text style={styles.foodName}>{item.name}</Text>
                 <Text style={styles.foodMeta}>
                   {item.serving} ·{' '}
@@ -209,6 +240,27 @@ export default function FoodTab() {
                 <Text style={styles.foodCal}>{item.calories}</Text>
                 <Text style={styles.foodCalUnit}>kcal</Text>
               </View>
+              {item.isCustom && (
+                <TouchableOpacity
+                  style={styles.deleteBankBtn}
+                  onPress={() =>
+                    Alert.alert(
+                      'Remove from My Foods?',
+                      `"${item.name}" will be removed from your food bank.`,
+                      [
+                        { text: 'Cancel' },
+                        {
+                          text: 'Remove',
+                          style: 'destructive',
+                          onPress: () => removeCustomFood(item.id),
+                        },
+                      ],
+                    )
+                  }
+                >
+                  <Ionicons name="trash-outline" size={15} color={Colors.red} />
+                </TouchableOpacity>
+              )}
               <TouchableOpacity
                 style={styles.addBtn}
                 onPress={() => setSelectedFood(item)}
@@ -250,7 +302,7 @@ export default function FoodTab() {
                     <CustomNumInput label="Carbs" value={customCarbs} onChange={setCustomCarbs} unit="g" />
                     <CustomNumInput label="Fat" value={customFat} onChange={setCustomFat} unit="g" />
                   </View>
-                  <TouchableOpacity style={styles.customAddBtn} onPress={addCustomFood}>
+                  <TouchableOpacity style={styles.customAddBtn} onPress={handleAddCustomForm}>
                     <Text style={styles.customAddTxt}>Add to Log</Text>
                   </TouchableOpacity>
                 </View>
@@ -320,6 +372,7 @@ export default function FoodTab() {
       <ScanLabelModal
         visible={showScan}
         onAdd={addFood}
+        onSaveFood={addCustomFood}
         onClose={() => setShowScan(false)}
       />
     </View>
@@ -418,6 +471,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   catChipActive: { backgroundColor: Colors.accent, borderColor: Colors.accent },
+  catChipMyFoods: { borderColor: Colors.orange + '66' },
+  catChipMyFoodsActive: { backgroundColor: Colors.orange, borderColor: Colors.orange },
   catTxt: { color: Colors.textSecondary, fontSize: 13, fontWeight: '600' },
   catTxtActive: { color: Colors.white },
   sectionHeader: {
@@ -440,6 +495,26 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingLeft: 16,
     paddingRight: 12,
+  },
+  foodRowCustom: {
+    borderWidth: 1,
+    borderColor: Colors.orange + '44',
+  },
+  myFoodsTag: {
+    color: Colors.orange,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+    marginBottom: 3,
+  },
+  deleteBankBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: Colors.red + '18',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 6,
   },
   foodLeft: { flex: 1 },
   foodName: { color: Colors.white, fontSize: 15, fontWeight: '600', marginBottom: 4 },

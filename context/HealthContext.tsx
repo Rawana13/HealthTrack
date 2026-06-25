@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FoodLogEntry, WorkoutEntry, WeightEntry, Goals } from '../types';
+import { FoodItem, FoodLogEntry, WorkoutEntry, WeightEntry, Goals } from '../types';
 import { defaultGoals } from '../constants/theme';
 
 const today = () => new Date().toISOString().split('T')[0];
@@ -18,9 +18,14 @@ const makeKeys = (date: string) => ({
   WATER: `@ht_water_${date}`,
   WEIGHT_LOG: '@ht_weight',
   GOALS: '@ht_goals',
+  CUSTOM_FOODS: '@ht_custom_foods',
 });
 
 interface HealthContextType {
+  customFoods: FoodItem[];
+  addCustomFood: (food: FoodItem) => void;
+  removeCustomFood: (id: string) => void;
+
   foodLog: FoodLogEntry[];
   addFood: (entry: FoodLogEntry) => void;
   removeFood: (id: string) => void;
@@ -50,6 +55,7 @@ interface HealthContextType {
 const HealthContext = createContext<HealthContextType | null>(null);
 
 export function HealthProvider({ children }: { children: React.ReactNode }) {
+  const [customFoods, setCustomFoods] = useState<FoodItem[]>([]);
   const [foodLog, setFoodLog] = useState<FoodLogEntry[]>([]);
   const [workoutLog, setWorkoutLog] = useState<WorkoutEntry[]>([]);
   const [waterCount, setWaterCountState] = useState(0);
@@ -65,18 +71,20 @@ export function HealthProvider({ children }: { children: React.ReactNode }) {
   const loadAll = async () => {
     const keys = makeKeys(today());
     try {
-      const [fj, wj, wt, wl, gj] = await AsyncStorage.multiGet([
+      const [fj, wj, wt, wl, gj, cfj] = await AsyncStorage.multiGet([
         keys.FOOD_LOG,
         keys.WORKOUT_LOG,
         keys.WATER,
         keys.WEIGHT_LOG,
         keys.GOALS,
+        keys.CUSTOM_FOODS,
       ]);
-      if (fj[1]) setFoodLog(JSON.parse(fj[1]));
-      if (wj[1]) setWorkoutLog(JSON.parse(wj[1]));
-      if (wt[1]) setWaterCountState(JSON.parse(wt[1]));
-      if (wl[1]) setWeightLog(JSON.parse(wl[1]));
-      if (gj[1]) setGoals(JSON.parse(gj[1]));
+      if (fj[1])  setFoodLog(JSON.parse(fj[1]));
+      if (wj[1])  setWorkoutLog(JSON.parse(wj[1]));
+      if (wt[1])  setWaterCountState(JSON.parse(wt[1]));
+      if (wl[1])  setWeightLog(JSON.parse(wl[1]));
+      if (gj[1])  setGoals(JSON.parse(gj[1]));
+      if (cfj[1]) setCustomFoods(JSON.parse(cfj[1]));
     } catch (_) {}
   };
 
@@ -85,6 +93,22 @@ export function HealthProvider({ children }: { children: React.ReactNode }) {
       await AsyncStorage.setItem(key, JSON.stringify(value));
     } catch (_) {}
   };
+
+  const addCustomFood = useCallback((food: FoodItem) => {
+    setCustomFoods((prev) => {
+      const next = [food, ...prev];
+      persist(makeKeys(today()).CUSTOM_FOODS, next);
+      return next;
+    });
+  }, []);
+
+  const removeCustomFood = useCallback((id: string) => {
+    setCustomFoods((prev) => {
+      const next = prev.filter((f) => f.id !== id);
+      persist(makeKeys(today()).CUSTOM_FOODS, next);
+      return next;
+    });
+  }, []);
 
   const showFlash = useCallback((msg: string) => {
     setFlashMsg(msg);
@@ -186,6 +210,9 @@ export function HealthProvider({ children }: { children: React.ReactNode }) {
   return (
     <HealthContext.Provider
       value={{
+        customFoods,
+        addCustomFood,
+        removeCustomFood,
         foodLog,
         addFood,
         removeFood,
