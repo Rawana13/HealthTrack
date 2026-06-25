@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "HealthTrack",
+    "slug": "healthtrack",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "healthtrack",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0F1117"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.healthtrack.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0F1117"
+      },
+      "package": "com.healthtrack.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "@react-native-async-storage/async-storage",
+        {
+          "exclude": []
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
