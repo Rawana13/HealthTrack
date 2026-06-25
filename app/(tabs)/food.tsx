@@ -18,6 +18,7 @@ import { Colors } from '../../constants/theme';
 import { FOOD_DATABASE, CATEGORIES, FoodCategory, genId } from '../../constants/foods';
 import { FoodItem, FoodLogEntry } from '../../types';
 import ServingModal from '../../components/ServingModal';
+import ScanLabelModal from '../../components/ScanLabelModal';
 import FlashMessage from '../../components/FlashMessage';
 
 export default function FoodTab() {
@@ -28,6 +29,7 @@ export default function FoodTab() {
   const [category, setCategory] = useState<FoodCategory>('All');
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [showCustom, setShowCustom] = useState(false);
+  const [showScan, setShowScan] = useState(false);
 
   // Custom food form
   const [customName, setCustomName] = useState('');
@@ -110,18 +112,24 @@ export default function FoodTab() {
 
       <View style={styles.headerBar}>
         <Text style={styles.title}>Food Log</Text>
-        {foodLog.length > 0 && (
-          <TouchableOpacity
-            onPress={() =>
-              Alert.alert('Clear log?', "This removes all today's food entries.", [
-                { text: 'Cancel' },
-                { text: 'Clear', style: 'destructive', onPress: clearFoodLog },
-              ])
-            }
-          >
-            <Text style={styles.clearTxt}>Clear All</Text>
+        <View style={styles.headerActions}>
+          <TouchableOpacity style={styles.scanBtn} onPress={() => setShowScan(true)}>
+            <Ionicons name="camera" size={16} color={Colors.white} />
+            <Text style={styles.scanBtnTxt}>Scan Label</Text>
           </TouchableOpacity>
-        )}
+          {foodLog.length > 0 && (
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert('Clear log?', "This removes all today's food entries.", [
+                  { text: 'Cancel' },
+                  { text: 'Clear', style: 'destructive', onPress: clearFoodLog },
+                ])
+              }
+            >
+              <Text style={styles.clearTxt}>Clear All</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       <KeyboardAvoidingView
@@ -308,6 +316,12 @@ export default function FoodTab() {
         onAdd={addFood}
         onClose={() => setSelectedFood(null)}
       />
+
+      <ScanLabelModal
+        visible={showScan}
+        onAdd={addFood}
+        onClose={() => setShowScan(false)}
+      />
     </View>
   );
 }
@@ -368,6 +382,17 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   title: { color: Colors.white, fontSize: 24, fontWeight: '900' },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  scanBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: Colors.accent,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 20,
+  },
+  scanBtnTxt: { color: Colors.white, fontSize: 13, fontWeight: '700' },
   clearTxt: { color: Colors.red, fontSize: 14, fontWeight: '600' },
   searchWrap: {
     flexDirection: 'row',

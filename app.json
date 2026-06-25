@@ -31,6 +31,14 @@
         {
           "exclude": []
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "HealthTrack needs camera access to scan nutrition labels.",
+          "microphonePermission": false,
+          "photosPermission": "HealthTrack needs photo library access to import nutrition label images."
+        }
       ]
     ],
     "experiments": {
