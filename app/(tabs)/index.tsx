@@ -10,16 +10,19 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useHealth } from '../../context/HealthContext';
 import { Colors } from '../../constants/theme';
+import { FoodLogEntry } from '../../types';
 import CalorieRing from '../../components/CalorieRing';
 import MacroBar from '../../components/MacroBar';
 import GoalsModal from '../../components/GoalsModal';
+import ServingModal from '../../components/ServingModal';
 import FlashMessage from '../../components/FlashMessage';
 
 export default function Dashboard() {
   const { top } = useSafeAreaInsets();
-  const { totals, burnedCalories, goals, waterCount, workoutLog, foodLog, flashMsg, updateGoals } =
+  const { totals, burnedCalories, goals, waterCount, workoutLog, foodLog, flashMsg, updateGoals, editFood } =
     useHealth();
   const [showGoals, setShowGoals] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<FoodLogEntry | null>(null);
 
   const net = totals.calories - burnedCalories;
   const remaining = goals.calories - net;
@@ -132,7 +135,12 @@ export default function Dashboard() {
             <Text style={styles.emptyTxt}>No food logged yet</Text>
           )}
           {preview.map((e) => (
-            <View key={e.id} style={styles.logRow}>
+            <TouchableOpacity
+              key={e.id}
+              style={styles.logRow}
+              onPress={() => setEditingEntry(e)}
+              activeOpacity={0.7}
+            >
               <View style={{ flex: 1 }}>
                 <Text style={styles.logName}>
                   {e.food.name}
@@ -147,7 +155,8 @@ export default function Dashboard() {
                 </Text>
               </View>
               <Text style={styles.logCal}>{e.calories} kcal</Text>
-            </View>
+              <Ionicons name="pencil-outline" size={14} color={Colors.textSecondary} style={{ marginLeft: 8 }} />
+            </TouchableOpacity>
           ))}
           {foodLog.length > 3 && (
             <Text style={styles.moreItems}>+{foodLog.length - 3} more items</Text>
@@ -162,6 +171,15 @@ export default function Dashboard() {
         goals={goals}
         onSave={updateGoals}
         onClose={() => setShowGoals(false)}
+      />
+
+      <ServingModal
+        visible={editingEntry !== null}
+        food={editingEntry?.food ?? null}
+        onAdd={() => {}}
+        onClose={() => setEditingEntry(null)}
+        editingEntry={editingEntry}
+        onEdit={(updated) => { editFood(updated); setEditingEntry(null); }}
       />
     </View>
   );
