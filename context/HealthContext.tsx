@@ -10,7 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FoodItem, FoodLogEntry, WorkoutEntry, WeightEntry, Goals } from '../types';
 import { defaultGoals } from '../constants/theme';
 
-const today = () => new Date().toISOString().split('T')[0];
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 const makeKeys = (date: string) => ({
   FOOD_LOG: `@ht_food_${date}`,
