@@ -1,13 +1,13 @@
 # CraveSmart
 
-CraveSmart is a single-page web app that helps home cooks find healthier alternatives to their food cravings — powered by Python, Gradio, and the Anthropic Claude API. Enter any craving (e.g. "mac and cheese" or "fried chicken"), and the app runs three chained Claude calls to analyze what makes that food unhealthy, generate three cleaner alternative recipes that still satisfy the craving, and display each with a name, explanation, ingredient list, and simple cooking steps.
+CraveSmart is a single-page web app that helps home cooks find healthier alternatives to their food cravings — powered by Python, Gradio, and the Google Gemini API (free tier). Enter any craving (e.g. "mac and cheese" or "fried chicken"), and the app runs three chained AI calls to analyze what makes that food unhealthy, generate three cleaner alternative recipes that still satisfy the craving, and display each with a name, explanation, ingredient list, and simple cooking steps.
 
 ## How to run
 
 ```bash
 pip install -r requirements.txt
-# Add your Anthropic API key to .env
-echo "ANTHROPIC_API_KEY=sk-..." > .env
+# Get a free API key at https://aistudio.google.com/app/apikey (no credit card required)
+echo "GOOGLE_API_KEY=your_key_here" > .env
 python app.py
 ```
 
