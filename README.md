@@ -1,6 +1,6 @@
-# CraveSmart
+# Healthy Cravings
 
-CraveSmart is a single-page web app that helps home cooks find healthier alternatives to their food cravings — powered by Python, Gradio, and the Google Gemini API (free tier). Enter any craving (e.g. "mac and cheese" or "fried chicken"), and the app runs three chained AI calls to analyze what makes that food unhealthy, generate three cleaner alternative recipes that still satisfy the craving, and display each with a name, explanation, ingredient list, and simple cooking steps.
+Healthy Cravings is a single-page web app that helps home cooks find healthier alternatives to their food cravings — powered by Python, Gradio, and the Google Gemini API (free tier). Enter any craving (e.g. "mac and cheese" or "fried chicken"), and the app runs three chained AI calls to analyze what makes that food unhealthy, generate three cleaner alternative recipes that still satisfy the craving, and display each with a name, explanation, ingredient list, and simple cooking steps.
 
 ## How to run
 

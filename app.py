@@ -25,8 +25,8 @@ def get_healthy_alternative(craving: str) -> str:
     return formatted
 
 
-with gr.Blocks(title="CraveSmart", theme=gr.themes.Soft()) as demo:
-    gr.Markdown("# CraveSmart\n### Find healthier alternatives to your favorite cravings")
+with gr.Blocks(title="Healthy Cravings", theme=gr.themes.Soft()) as demo:
+    gr.Markdown("# Healthy Cravings\n### Find healthier alternatives to your favorite cravings")
 
     with gr.Row():
         craving_input = gr.Textbox(
