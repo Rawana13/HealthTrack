@@ -172,7 +172,7 @@ export default function FoodTab() {
                 <Ionicons name="search" size={18} color={Colors.textSecondary} style={styles.searchIcon} />
                 <TextInput
                   style={styles.searchInput}
-                  placeholder="Search 140+ foods…"
+                  placeholder="Search 280+ foods…"
                   placeholderTextColor={Colors.textSecondary}
                   value={search}
                   onChangeText={setSearch}
