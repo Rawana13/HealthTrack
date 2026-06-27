@@ -27,6 +27,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'b10', name: 'Smoothie Bowl',        category: 'Breakfast', calories: 350, protein: 10, carbs: 55, fat: 10,  serving: '1 bowl' },
   { id: 'b11', name: 'Avocado Toast',        category: 'Breakfast', calories: 220, protein: 6,  carbs: 22, fat: 13,  serving: '1 slice' },
   { id: 'b12', name: 'Banana Pancakes',      category: 'Breakfast', calories: 190, protein: 6,  carbs: 32, fat: 5,   serving: '2 pancakes' },
+  { id: 'b13', name: 'French Toast',         category: 'Breakfast', calories: 300, protein: 10, carbs: 40, fat: 10,  serving: '2 slices' },
+  { id: 'b14', name: 'Waffles',              category: 'Breakfast', calories: 310, protein: 8,  carbs: 42, fat: 13,  serving: '2 medium' },
+  { id: 'b15', name: 'Overnight Oats',       category: 'Breakfast', calories: 300, protein: 12, carbs: 45, fat: 8,   serving: '1 cup' },
+  { id: 'b16', name: 'Chia Pudding',         category: 'Breakfast', calories: 200, protein: 8,  carbs: 20, fat: 11,  serving: '½ cup' },
+  { id: 'b17', name: 'English Muffin',       category: 'Breakfast', calories: 134, protein: 5,  carbs: 26, fat: 1,   serving: '1 muffin' },
+  { id: 'b18', name: 'Corn Flakes',          category: 'Breakfast', calories: 100, protein: 2,  carbs: 24, fat: 0,   serving: '1 cup' },
+  { id: 'b19', name: 'Acai Bowl',            category: 'Breakfast', calories: 400, protein: 8,  carbs: 60, fat: 15,  serving: '1 bowl' },
+  { id: 'b20', name: 'Breakfast Burrito',    category: 'Breakfast', calories: 380, protein: 20, carbs: 40, fat: 15,  serving: '1 burrito' },
 
   // ── Proteins ───────────────────────────────────────────────────────────────
   { id: 'p1',  name: 'Chicken Breast',       category: 'Proteins',  calories: 165, protein: 31, carbs: 0,  fat: 4,   serving: '100g' },
@@ -41,6 +49,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'p10', name: 'Lentils',              category: 'Proteins',  calories: 115, protein: 9,  carbs: 20, fat: 0,   serving: '½ cup' },
   { id: 'p11', name: 'Cod',                  category: 'Proteins',  calories: 82,  protein: 18, carbs: 0,  fat: 1,   serving: '100g' },
   { id: 'p12', name: 'Egg Whites (3)',       category: 'Proteins',  calories: 51,  protein: 11, carbs: 1,  fat: 0,   serving: '3 whites' },
+  { id: 'p13', name: 'Chicken Thigh',        category: 'Proteins',  calories: 209, protein: 26, carbs: 0,  fat: 11,  serving: '100g' },
+  { id: 'p14', name: 'Ground Beef (lean)',   category: 'Proteins',  calories: 218, protein: 26, carbs: 0,  fat: 12,  serving: '100g' },
+  { id: 'p15', name: 'Pork Tenderloin',      category: 'Proteins',  calories: 143, protein: 26, carbs: 0,  fat: 4,   serving: '100g' },
+  { id: 'p16', name: 'Tilapia',              category: 'Proteins',  calories: 128, protein: 26, carbs: 0,  fat: 3,   serving: '100g' },
+  { id: 'p17', name: 'Edamame',              category: 'Proteins',  calories: 94,  protein: 9,  carbs: 7,  fat: 4,   serving: '½ cup' },
+  { id: 'p18', name: 'Chickpeas',            category: 'Proteins',  calories: 134, protein: 7,  carbs: 22, fat: 2,   serving: '½ cup' },
+  { id: 'p19', name: 'Sardines (canned)',    category: 'Proteins',  calories: 177, protein: 21, carbs: 0,  fat: 10,  serving: '85g' },
+  { id: 'p20', name: 'Beef Jerky',           category: 'Proteins',  calories: 116, protein: 9,  carbs: 3,  fat: 7,   serving: '1 oz' },
 
   // ── Carbs & Grains ─────────────────────────────────────────────────────────
   { id: 'c1',  name: 'Brown Rice',           category: 'Carbs & Grains', calories: 215, protein: 5,  carbs: 45, fat: 2,  serving: '1 cup cooked' },
@@ -55,6 +71,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'c10', name: 'Pita Bread',           category: 'Carbs & Grains', calories: 165, protein: 5,  carbs: 33, fat: 1,  serving: '1 medium' },
   { id: 'c11', name: 'Oat Bran',             category: 'Carbs & Grains', calories: 88,  protein: 7,  carbs: 25, fat: 2,  serving: '½ cup dry' },
   { id: 'c12', name: 'Barley',               category: 'Carbs & Grains', calories: 193, protein: 4,  carbs: 44, fat: 1,  serving: '1 cup cooked' },
+  { id: 'c13', name: 'Sourdough Bread',      category: 'Carbs & Grains', calories: 93,  protein: 4,  carbs: 18, fat: 1,  serving: '1 slice' },
+  { id: 'c14', name: 'Corn Tortilla',        category: 'Carbs & Grains', calories: 52,  protein: 1,  carbs: 11, fat: 1,  serving: '1 medium' },
+  { id: 'c15', name: 'White Bread',          category: 'Carbs & Grains', calories: 79,  protein: 3,  carbs: 15, fat: 1,  serving: '1 slice' },
+  { id: 'c16', name: 'Naan Bread',           category: 'Carbs & Grains', calories: 262, protein: 9,  carbs: 45, fat: 5,  serving: '1 piece' },
+  { id: 'c17', name: 'Rice Noodles',         category: 'Carbs & Grains', calories: 192, protein: 4,  carbs: 44, fat: 0,  serving: '1 cup cooked' },
+  { id: 'c18', name: 'Buckwheat',            category: 'Carbs & Grains', calories: 155, protein: 6,  carbs: 33, fat: 1,  serving: '1 cup cooked' },
+  { id: 'c19', name: 'Rye Bread',            category: 'Carbs & Grains', calories: 83,  protein: 3,  carbs: 15, fat: 1,  serving: '1 slice' },
+  { id: 'c20', name: 'Crackers (whole grain)',category: 'Carbs & Grains', calories: 70,  protein: 1,  carbs: 11, fat: 3,  serving: '5 crackers' },
 
   // ── Vegetables ─────────────────────────────────────────────────────────────
   { id: 'v1',  name: 'Broccoli',             category: 'Vegetables', calories: 55,  protein: 4,  carbs: 11, fat: 1,  serving: '1 cup' },
@@ -69,6 +93,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'v10', name: 'Asparagus',            category: 'Vegetables', calories: 27,  protein: 3,  carbs: 5,  fat: 0,  serving: '1 cup' },
   { id: 'v11', name: 'Cauliflower',          category: 'Vegetables', calories: 25,  protein: 2,  carbs: 5,  fat: 0,  serving: '1 cup' },
   { id: 'v12', name: 'Green Beans',          category: 'Vegetables', calories: 31,  protein: 2,  carbs: 7,  fat: 0,  serving: '1 cup' },
+  { id: 'v13', name: 'Mushrooms',            category: 'Vegetables', calories: 21,  protein: 3,  carbs: 3,  fat: 0,  serving: '1 cup' },
+  { id: 'v14', name: 'Sweet Corn',           category: 'Vegetables', calories: 132, protein: 5,  carbs: 29, fat: 2,  serving: '1 cup' },
+  { id: 'v15', name: 'Peas',                 category: 'Vegetables', calories: 62,  protein: 4,  carbs: 11, fat: 0,  serving: '½ cup' },
+  { id: 'v16', name: 'Brussels Sprouts',     category: 'Vegetables', calories: 56,  protein: 4,  carbs: 11, fat: 1,  serving: '1 cup' },
+  { id: 'v17', name: 'Beets',                category: 'Vegetables', calories: 43,  protein: 2,  carbs: 10, fat: 0,  serving: '1 medium' },
+  { id: 'v18', name: 'Eggplant',             category: 'Vegetables', calories: 35,  protein: 1,  carbs: 9,  fat: 0,  serving: '1 cup' },
+  { id: 'v19', name: 'Celery',               category: 'Vegetables', calories: 12,  protein: 1,  carbs: 2,  fat: 0,  serving: '2 stalks' },
+  { id: 'v20', name: 'Onion',                category: 'Vegetables', calories: 44,  protein: 1,  carbs: 10, fat: 0,  serving: '1 medium' },
 
   // ── Fruits ─────────────────────────────────────────────────────────────────
   { id: 'f1',  name: 'Banana',               category: 'Fruits',    calories: 105, protein: 1,  carbs: 27, fat: 0,  serving: '1 medium' },
@@ -83,6 +115,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'f10', name: 'Avocado',              category: 'Fruits',    calories: 120, protein: 2,  carbs: 6,  fat: 11, serving: '½ medium' },
   { id: 'f11', name: 'Raspberries',          category: 'Fruits',    calories: 64,  protein: 1,  carbs: 15, fat: 1,  serving: '1 cup' },
   { id: 'f12', name: 'Peach',                category: 'Fruits',    calories: 58,  protein: 1,  carbs: 14, fat: 0,  serving: '1 medium' },
+  { id: 'f13', name: 'Kiwi',                 category: 'Fruits',    calories: 42,  protein: 1,  carbs: 10, fat: 0,  serving: '1 medium' },
+  { id: 'f14', name: 'Pear',                 category: 'Fruits',    calories: 101, protein: 1,  carbs: 27, fat: 0,  serving: '1 medium' },
+  { id: 'f15', name: 'Cherries',             category: 'Fruits',    calories: 87,  protein: 1,  carbs: 22, fat: 0,  serving: '1 cup' },
+  { id: 'f16', name: 'Grapefruit',           category: 'Fruits',    calories: 41,  protein: 1,  carbs: 10, fat: 0,  serving: '½ medium' },
+  { id: 'f17', name: 'Pomegranate Seeds',    category: 'Fruits',    calories: 72,  protein: 1,  carbs: 16, fat: 1,  serving: '½ cup' },
+  { id: 'f18', name: 'Dates',                category: 'Fruits',    calories: 100, protein: 1,  carbs: 27, fat: 0,  serving: '3 dates' },
+  { id: 'f19', name: 'Cantaloupe',           category: 'Fruits',    calories: 53,  protein: 1,  carbs: 13, fat: 0,  serving: '1 cup' },
+  { id: 'f20', name: 'Papaya',               category: 'Fruits',    calories: 55,  protein: 1,  carbs: 14, fat: 0,  serving: '1 cup' },
 
   // ── Dairy & Snacks ─────────────────────────────────────────────────────────
   { id: 'd1',  name: 'Whole Milk',           category: 'Dairy & Snacks', calories: 150, protein: 8,  carbs: 12, fat: 8,  serving: '1 cup' },
@@ -97,6 +137,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'd10', name: 'Low-Fat Greek Yogurt', category: 'Dairy & Snacks', calories: 100, protein: 17, carbs: 6,  fat: 0,  serving: '1 cup' },
   { id: 'd11', name: 'Cashews',              category: 'Dairy & Snacks', calories: 157, protein: 5,  carbs: 9,  fat: 12, serving: '1 oz' },
   { id: 'd12', name: 'Skim Milk',            category: 'Dairy & Snacks', calories: 83,  protein: 8,  carbs: 12, fat: 0,  serving: '1 cup' },
+  { id: 'd13', name: 'Mozzarella',           category: 'Dairy & Snacks', calories: 85,  protein: 6,  carbs: 1,  fat: 6,  serving: '1 oz' },
+  { id: 'd14', name: 'Walnuts',              category: 'Dairy & Snacks', calories: 185, protein: 4,  carbs: 4,  fat: 18, serving: '1 oz' },
+  { id: 'd15', name: 'Popcorn (air-popped)', category: 'Dairy & Snacks', calories: 93,  protein: 3,  carbs: 19, fat: 1,  serving: '3 cups' },
+  { id: 'd16', name: 'Granola Bar',          category: 'Dairy & Snacks', calories: 190, protein: 4,  carbs: 28, fat: 7,  serving: '1 bar' },
+  { id: 'd17', name: 'Kefir',                category: 'Dairy & Snacks', calories: 110, protein: 11, carbs: 12, fat: 2,  serving: '1 cup' },
+  { id: 'd18', name: 'Trail Mix',            category: 'Dairy & Snacks', calories: 131, protein: 4,  carbs: 13, fat: 8,  serving: '1 oz' },
+  { id: 'd19', name: 'Almond Milk',          category: 'Dairy & Snacks', calories: 40,  protein: 1,  carbs: 3,  fat: 3,  serving: '1 cup' },
+  { id: 'd20', name: 'Sunflower Seeds',      category: 'Dairy & Snacks', calories: 166, protein: 5,  carbs: 7,  fat: 14, serving: '1 oz' },
 
   // ── Meals ──────────────────────────────────────────────────────────────────
   { id: 'm1',  name: 'Burger',               category: 'Meals',     calories: 450, protein: 25, carbs: 40, fat: 20, serving: '1 medium' },
@@ -111,6 +159,14 @@ export const FOOD_DATABASE: FoodItem[] = [
   { id: 'm10', name: 'Grilled Chicken Salad',category: 'Meals',     calories: 300, protein: 35, carbs: 15, fat: 12, serving: '1 serving' },
   { id: 'm11', name: 'Salmon Bowl',          category: 'Meals',     calories: 480, protein: 32, carbs: 45, fat: 16, serving: '1 bowl' },
   { id: 'm12', name: 'Turkey Wrap',          category: 'Meals',     calories: 380, protein: 28, carbs: 35, fat: 12, serving: '1 wrap' },
+  { id: 'm13', name: 'Chicken Fried Rice',   category: 'Meals',     calories: 400, protein: 20, carbs: 50, fat: 12, serving: '1 cup' },
+  { id: 'm14', name: 'Pad Thai',             category: 'Meals',     calories: 450, protein: 22, carbs: 55, fat: 15, serving: '1 serving' },
+  { id: 'm15', name: 'Lentil Soup',          category: 'Meals',     calories: 230, protein: 16, carbs: 38, fat: 3,  serving: '1 cup' },
+  { id: 'm16', name: 'Fish Tacos',           category: 'Meals',     calories: 370, protein: 25, carbs: 35, fat: 14, serving: '2 tacos' },
+  { id: 'm17', name: 'Chicken Tikka Masala', category: 'Meals',     calories: 320, protein: 28, carbs: 15, fat: 15, serving: '1 cup' },
+  { id: 'm18', name: 'Poke Bowl',            category: 'Meals',     calories: 520, protein: 30, carbs: 60, fat: 15, serving: '1 bowl' },
+  { id: 'm19', name: 'Shakshuka',            category: 'Meals',     calories: 280, protein: 18, carbs: 20, fat: 15, serving: '1 serving' },
+  { id: 'm20', name: 'Chicken Noodle Soup',  category: 'Meals',     calories: 175, protein: 12, carbs: 20, fat: 4,  serving: '1 cup' },
 ];
 
 export const genId = () =>
